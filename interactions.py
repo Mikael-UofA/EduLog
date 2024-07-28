@@ -44,7 +44,7 @@ def year_selection(year_list):
         return 0
 
     for position, year in enumerate(year_list, 1):
-        print(f"{position}. Year {year}")
+        print(f"{position}. {year}")
 
     position += 1
     print(f"{position}. Other")
@@ -89,7 +89,6 @@ def course_selection(course_name_list):
 
 def create_course():
     valid_roman_numerals = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"}
-    valid_semesters = {"Fall", "Winter", "Spring", "Summer"}
 
     print("Please enter the year (I, II, III, IV, ..., X): ", end="")
     while True:
