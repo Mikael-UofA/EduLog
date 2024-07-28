@@ -12,4 +12,4 @@ class Course:
     def print(self):
         print(f"{self.subject_code} {self.course_code}: {self.course_title}\n"
               f"{self.semester} Semester\n"
-              f"Taught by {self.instructor}, Grade: {self.letter_grade}")
+              f"Taught by {self.instructor}, Grade: {self.letter_grade}\n Notes: {self.comment}")
