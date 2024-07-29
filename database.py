@@ -1,7 +1,7 @@
 import sqlite3
 from course import Course
 
-db = 'real.db'
+db = 'edulog.db'
 
 def initialize_database():
     sql_create_table = """
