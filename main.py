@@ -20,30 +20,38 @@ def main():
             choice = interactions.year_selection(years)
 
             if choice != 0:
-                year = years[choice - 1]
+                year = years[choice - 1]["year"]
                 sem = interactions.sem_selection()
+                print("")
                 
                 courses = database.get_courses(year, sem)
                 # find the courses in this year and semester
                 choice = interactions.course_selection(courses)
                 if choice != 0:
                     # show the course
-                    my_course = courses[choice - 1]
-                    my_course = Course(*my_course)
+                    subject_code = courses[choice - 1]["subject_code"]
+                    course_code = courses[choice - 1]["course_code"]
+
+                    my_course = database.get_course(subject_code, course_code)
                     my_course.print()
+                    print("")
 
         # Add a course
         elif choice == 2:
             new_course = interactions.create_course()
-            # store this new course
-            print("Storing new course:")
-            new_course.print()
+            database.insert_course(new_course)
 
         # Course lookup
         elif choice == 3:
-            course = interactions.course_lookup()
-            # return this course if it exists
-            print(f"Lookup result for {course[0]} {course[1]}")
+            user_input = interactions.course_lookup()
+            course = database.get_course(user_input[0], user_input[1])
+
+            if (course):
+                course.print()
+                print()
+            else:
+                print("No such course in the database.\n")
+            
 
         # Exiting
         else:

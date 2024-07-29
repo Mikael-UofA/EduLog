@@ -49,8 +49,8 @@ def year_selection(year_list):
         print("No years available.")
 
     pos = 0
-    for position, year in enumerate(year_list, 1):
-        print(f"{position}. {year}")
+    for position, row in enumerate(year_list, 1):
+        print(f"{position}. {row["year"]}")
         pos = position
 
     print("0. Back")
@@ -71,7 +71,6 @@ def sem_selection():
     while True:
         semester = input()
         if semester in valid_semesters:
-            print("")
             return semester
         else:
             print("Invalid semester. Please enter the semester (Fall, Winter, Spring, or Summer): ", end="")
@@ -81,13 +80,14 @@ def course_selection(course_name_list):
         print("No courses available.")
         return 0
 
-    print("Please select one of these options:")
-    for position, course_name in enumerate(course_name_list, 1):
-        print(f"{position}. {course_name}")
+    for position, row in enumerate(course_name_list, 1):
+        print(f"{position}. {row["subject_code"]} {row["course_code"]}")
 
     print("0. Back")
 
+    print("Please select one of these options: ", end="")
     while True:
+        
         answer = input()
         value = check_input_validity(answer, position)
         if value != -1:
@@ -96,15 +96,16 @@ def course_selection(course_name_list):
         print("Please enter a valid option: ", end="")
 
 def create_course():
-    valid_roman_numerals = {"I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X"}
 
-    print("Please enter the year (I, II, III, IV, ..., X): ", end="")
     while True:
-        year = input().upper()
-        if year in valid_roman_numerals:
-            break
-        else:
-            print("Invalid Roman numeral. Please enter a valid Roman numeral between I and X: ", end="")
+        try:
+            year = int(input("Please enter a year (e.g., 2020, 2021, 2023, ...): ").strip())
+            if 1970 < year < 2048:
+                break
+            else:
+                print("Invalid year. Please enter a valid year.")
+        except ValueError:
+            print("Invalid input. Please enter a numeric year.")
 
     semester = sem_selection()
 

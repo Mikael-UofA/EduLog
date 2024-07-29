@@ -90,8 +90,8 @@ def insert_course(course):
                 course.comment
             ))
             conn.commit()
-            print("Course added successfully.")
+            print("Course added successfully.\n")
         except sqlite3.Error as e:
-            print(f"Error adding course: {e}")
+            print(f"Error adding course: {e}\n")
     return
 
