@@ -1,5 +1,5 @@
 import sqlite3
-from course import Course
+from utils.course import Course
 
 db = 'edulog.db'
 

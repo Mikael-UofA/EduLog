@@ -1,6 +1,6 @@
-from course import Course
-import interactions
-import database
+from utils.course import Course
+import utils.interactions as interactions
+import utils.database as database
 
 def main():
     if (database.initialize_database()):

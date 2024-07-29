@@ -1,4 +1,4 @@
-from course import Course
+from utils.course import Course
 
 def check_input_validity(answer, range_value):
     if not answer:
