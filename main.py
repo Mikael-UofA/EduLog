@@ -57,7 +57,8 @@ def main():
         else:
             print("Terminating operations...")
             break
-
+        print("-------------------------------------------------------------------------------------")
+        print("\nMain Menu")
         choice = interactions.main_menu()
 
 if __name__ == "__main__":

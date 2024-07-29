@@ -46,7 +46,9 @@ def course_lookup():
 
 def year_selection(year_list):
     if not year_list:
-        print("No years available.")
+        print("No years available.\n")
+        return 0
+    print("Select a year")
 
     pos = 0
     for position, row in enumerate(year_list, 1):
@@ -77,8 +79,9 @@ def sem_selection():
 
 def course_selection(course_name_list):
     if not course_name_list:
-        print("No courses available.")
+        print("No courses available.\n")
         return 0
+    print("Select a course")
 
     for position, row in enumerate(course_name_list, 1):
         print(f"{position}. {row["subject_code"]} {row["course_code"]}")
