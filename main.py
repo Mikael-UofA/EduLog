@@ -8,6 +8,7 @@ def main():
         return -1
     
 
+    print("Welcome to EduLog!")
     choice = interactions.main_menu()
 
     # Main Menu

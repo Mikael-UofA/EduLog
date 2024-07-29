@@ -22,7 +22,7 @@ def initialize_database():
     """
 
     with sqlite3.connect(f'{db}') as conn:
-        c = conn.cursor
+        c = conn.cursor()
         c.execute("SELECT name FROM sqlite_master WHERE type='table' AND name='course';")
         # If the table does not exist, create it
         if not c.fetchone():
@@ -67,7 +67,7 @@ def get_courses(year, semester):
         conn.row_factory = sqlite3.Row
         c = conn.cursor()
     
-    c.execute("SELECT subject_code, course_code FROM course WHERE year = ? AND semester = ?," (year, semester,))
+    c.execute("SELECT subject_code, course_code FROM course WHERE year = ? AND semester = ?", (year, semester))
     return c.fetchall()
 
 def insert_course(course):
