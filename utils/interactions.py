@@ -88,6 +88,22 @@ def enter_year():
         except ValueError:
             print("Invalid input. Please enter a numeric year.")
 
+def enter_course_code():
+     while True:
+        try:
+            course_code = int(input("Please enter the course code (240, 102, ...): "))
+            return course_code
+        except ValueError:
+            print("Invalid input. Please enter a valid course code: ", end="")
+
+def enter_string(num: int):
+    while True:
+         answer = input("Please enter a new value: ")
+         if num > 5 or len(answer) > 1:
+             return answer
+         else:
+             print("This information cannot be empty")
+
 def course_selection(course_name_list):
     if not course_name_list:
         print("No courses available.\n")
@@ -117,12 +133,7 @@ def create_course():
 
     subject_code = input("Please enter the subject code (MATH, ENGL, ...): ")
     
-    while True:
-        try:
-            course_code = int(input("Please enter the course code (240, 102, ...): "))
-            break
-        except ValueError:
-            print("Invalid input. Please enter a valid course code: ", end="")
+    course_code = enter_course_code()
 
     course_title = input("Please enter the course title: ")
     letter_grade = input("Please enter your letter grade for this course (B, C, B+, ...): ")
@@ -142,61 +153,72 @@ def modify_course1():
             return False
 
 def modify_course2(course: Course):
-    print("Select the information you wish to modify: ")
-    print("1. Subject Code      2. Course Code      3. Course Title")
-    print("4. Year              5. Semester         6. Instructor")
-    print("7. Final Grade       8. Comment          0. Cancel")
+    need_to_delete = False
+    while True:
+        print("Select the information you wish to modify: ")
+        print("1. Subject Code      2. Course Code      3. Course Title")
+        print("4. Year              5. Semester         6. Instructor")
+        print("7. Final Grade       8. Comment          0. Done/Cancel")
 
-    answer = input("> ")
-    while (True):
-        if (check_input_validity(answer, 8) != - 1):
-            break
         answer = input("> ")
-    
-    answer = int(answer)
-    if not answer:
-        return answer 
-    
-    modify_course3(course, answer)
+        while True:
+            if (check_input_validity(answer, 8) != - 1):
+                break
+            answer = input("> ")
+        
+        answer = int(answer)
+        if not answer:
+            return answer 
+        elif answer in (1, 2):
+            need_to_delete = True
+        
+        course = modify_course3(course, answer)
 
 def modify_course3(course: Course, option: int):
     match option:
         case 1:
             print("Selected to motify 'subject code':")
             print(f"Previous value: {course.subject_code}")
+            answer = enter_string(option)
+            course.subject_code = answer
         case 2:
             print("Selected to motify 'course code':")
             print(f"Previous value: {course.course_code}")
+            answer = enter_course_code()
+            course.course_code = answer
         case 3:
             print("Selected to motify 'course title':")
             print(f"Previous value: {course.title}")
+            answer = enter_string(option)
+            course.title = answer
         case 4:
             print("Selected to motify 'year':")
             print(f"Previous value: {course.year}")
+            answer = enter_year()
+            course.year = answer
         case 5:
             print("Selected to motify 'semester':")
             print(f"Previous value: {course.semester}")
+            answer = enter_semester()
+            course.semester = answer
         case 6:
             print("Selected to motify 'instructor':")
             print(f"Previous value: {course.instructor}")
+            answer = enter_string(option)
+            course.instructor = answer
         case 7:
             print("Selected to motify 'final grade':")
             print(f"Previous value: {course.letter_grade}")
+            answer = enter_string(option)
+            course.letter_grade = answer
         case _:
             print("Selected to motify 'comment':")
             print(f"Previous value: {course.comment}")
+            answer = enter_string(option)
+            course.comment = answer
         
-
-    while True:
-        if option in (1, 3, 6, 7, 8):
-            answer = input("Please enter a new value: ")
-            break
+    return course
         
-        if option == 4:
-            answer = enter_year()
-        if option == 5:
-            answer = enter_semester()
-            break
 
             
 
