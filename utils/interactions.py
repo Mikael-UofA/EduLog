@@ -66,7 +66,7 @@ def year_selection(year_list):
             return value
         print("Please enter a valid option: ", end="")
 
-def sem_selection():
+def enter_semester():
     valid_semesters = {"Fall", "Winter", "Spring", "Summer"}
     print("Please enter the semester (Fall, Winter, Spring, or Summer): ", end="")
     
@@ -76,6 +76,17 @@ def sem_selection():
             return semester
         else:
             print("Invalid semester. Please enter the semester (Fall, Winter, Spring, or Summer): ", end="")
+
+def enter_year():
+    while True:
+        try:
+            year = int(input("Please enter a year (e.g., 2020, 2021, 2023, ...): ").strip())
+            if 1970 < year < 2048:
+                return year
+            else:
+                print("Invalid year. Please enter a valid year.")
+        except ValueError:
+            print("Invalid input. Please enter a numeric year.")
 
 def course_selection(course_name_list):
     if not course_name_list:
@@ -100,17 +111,9 @@ def course_selection(course_name_list):
 
 def create_course():
 
-    while True:
-        try:
-            year = int(input("Please enter a year (e.g., 2020, 2021, 2023, ...): ").strip())
-            if 1970 < year < 2048:
-                break
-            else:
-                print("Invalid year. Please enter a valid year.")
-        except ValueError:
-            print("Invalid input. Please enter a numeric year.")
+    year = enter_year()
 
-    semester = sem_selection()
+    semester = enter_semester()
 
     subject_code = input("Please enter the subject code (MATH, ENGL, ...): ")
     
@@ -128,3 +131,75 @@ def create_course():
 
     print("")
     return Course(subject_code, course_code, course_title, year, semester, letter_grade, instructor, comment)
+
+def modify_course1():
+    while (True):
+        answer = input("Do you wish to modify this course's info (Y/N)?: ")
+        
+        if answer.upper() == "Y":
+            return True
+        if answer.upper() == "N":
+            return False
+
+def modify_course2(course: Course):
+    print("Select the information you wish to modify: ")
+    print("1. Subject Code      2. Course Code      3. Course Title")
+    print("4. Year              5. Semester         6. Instructor")
+    print("7. Final Grade       8. Comment          0. Cancel")
+
+    answer = input("> ")
+    while (True):
+        if (check_input_validity(answer, 8) != - 1):
+            break
+        answer = input("> ")
+    
+    answer = int(answer)
+    if not answer:
+        return answer 
+    
+    modify_course3(course, answer)
+
+def modify_course3(course: Course, option: int):
+    match option:
+        case 1:
+            print("Selected to motify 'subject code':")
+            print(f"Previous value: {course.subject_code}")
+        case 2:
+            print("Selected to motify 'course code':")
+            print(f"Previous value: {course.course_code}")
+        case 3:
+            print("Selected to motify 'course title':")
+            print(f"Previous value: {course.title}")
+        case 4:
+            print("Selected to motify 'year':")
+            print(f"Previous value: {course.year}")
+        case 5:
+            print("Selected to motify 'semester':")
+            print(f"Previous value: {course.semester}")
+        case 6:
+            print("Selected to motify 'instructor':")
+            print(f"Previous value: {course.instructor}")
+        case 7:
+            print("Selected to motify 'final grade':")
+            print(f"Previous value: {course.letter_grade}")
+        case _:
+            print("Selected to motify 'comment':")
+            print(f"Previous value: {course.comment}")
+        
+
+    while True:
+        if option in (1, 3, 6, 7, 8):
+            answer = input("Please enter a new value: ")
+            break
+        
+        if option == 4:
+            answer = enter_year()
+        if option == 5:
+            answer = enter_semester()
+            break
+
+            
+
+
+        
+    
