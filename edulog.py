@@ -3,7 +3,7 @@ import utils.interactions as interactions
 import utils.database as database
 
 def main():
-    if (database.initialize_database()):
+    if database.initialize_database():
         print("Terminating operations...")
         return -1
     
@@ -35,24 +35,21 @@ def main():
                     my_course = database.get_course(subject_code, course_code)
                     my_course.print()
                     print("")
-
         # Add a course
         elif choice == 2:
             new_course = interactions.create_course()
             database.insert_course(new_course)
-
         # Course lookup
         elif choice == 3:
             user_input = interactions.course_lookup()
             course = database.get_course(user_input[0], user_input[1])
 
-            if (course):
+            if course:
                 course.print()
                 print()
+                interactions.modify_course1(course)
             else:
                 print("No such course in the database.\n")
-            
-
         # Exiting
         else:
             print("Terminating operations...")

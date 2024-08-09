@@ -170,7 +170,7 @@ def modify_course3(course: Course):
 
         answer = input("> ")
         while True:
-            if (check_input_validity(answer, 8) != - 1):
+            if check_input_validity(answer, 8) != - 1:
                 break
             answer = input("> ")
         
