@@ -1,4 +1,5 @@
 from utils.course import Course
+import database
 
 def check_input_validity(answer, range_value):
     if not answer:
@@ -143,7 +144,13 @@ def create_course():
     print("")
     return Course(subject_code, course_code, course_title, year, semester, letter_grade, instructor, comment)
 
-def modify_course1():
+def modify_course1(course: Course):
+    answer = modify_course2()
+    if answer:
+        modify_course3(course)
+    return
+
+def modify_course2():
     while (True):
         answer = input("Do you wish to modify this course's info (Y/N)?: ")
         
@@ -152,8 +159,9 @@ def modify_course1():
         if answer.upper() == "N":
             return False
 
-def modify_course2(course: Course):
+def modify_course3(course: Course):
     need_to_delete = False
+    old_course = course
     while True:
         print("Select the information you wish to modify: ")
         print("1. Subject Code      2. Course Code      3. Course Title")
@@ -168,13 +176,24 @@ def modify_course2(course: Course):
         
         answer = int(answer)
         if not answer:
-            return answer 
+            while True:
+                finish = input("Enter V if you wish to commit your changes or X if you wish to cancel")
+                if finish == "V":
+                    if need_to_delete:
+                        database.delete_course(old_course)
+                        database.insert_course(course)
+                    else:
+                        database.update_course(course)
+                    break
+                elif finish == "X":
+                    break
+            return
         elif answer in (1, 2):
             need_to_delete = True
         
-        course = modify_course3(course, answer)
+        course = modify_course4(course, answer)
 
-def modify_course3(course: Course, option: int):
+def modify_course4(course: Course, option: int):
     match option:
         case 1:
             print("Selected to motify 'subject code':")
