@@ -37,12 +37,16 @@ def initialize_database():
 
 def get_course(subject_code, course_code):
     """Retrieve a row from the course table based on subject_code and course_code and convert it to a Course object."""
-    sql_select_row = "SELECT * FROM course WHERE subject_code = ? AND course_code = ?"
+    sql_insert = """
+    SELECT * 
+    FROM course 
+    WHERE subject_code = ? AND course_code = ?
+    """
     
     conn = sqlite3.connect(f'{db}')
     try:
         cursor = conn.cursor()
-        cursor.execute(sql_select_row, (subject_code, course_code))
+        cursor.execute(sql_insert, (subject_code, course_code))
         row = cursor.fetchone()
         if row:
             return Course(*row)
@@ -63,11 +67,16 @@ def get_years():
     return c.fetchall()
 
 def get_courses(year, semester):
+    sql_insert = """
+    SELECT subject_code, course_code 
+    FROM course 
+    WHERE year = ? AND semester = ?
+    """ 
     with sqlite3.connect(f'{db}') as conn:
         conn.row_factory = sqlite3.Row
         c = conn.cursor()
     
-    c.execute("SELECT subject_code, course_code FROM course WHERE year = ? AND semester = ?", (year, semester))
+    c.execute(sql_insert, (year, semester))
     return c.fetchall()
 
 def insert_course(course):
@@ -95,3 +104,45 @@ def insert_course(course):
             print(f"Error adding course: {e}\n")
     return
 
+def delete_course(course):
+    sql_insert = """
+    DELETE FROM course 
+    WHERE subject_code = ? AND course_code = ?
+    """
+    with sqlite3.connect(f'{db}') as conn:
+        try:
+            c = conn.cursor()
+            c.execute(sql_insert, (
+                course.subject_code,
+                course.course_code
+            ))
+            conn.commit()
+        except sqlite3.Error as e:
+            print(f"Error deleting course: {e}\n")
+    return
+
+def update_course(course):
+    sql_insert = """
+    UPDATE course 
+    SET title = ?, year = ?, semester = ?, letter_grade = ?, instructor = ?, comment = ?
+    WHERE subject_code = ? AND course_code = ?
+    """
+    
+    with sqlite3.connect(f'{db}') as conn:
+        try:
+            c = conn.cursor()
+            c.execute(sql_insert, (
+                course.title,
+                course.year,
+                course.semester,
+                course.letter_grade,
+                course.instructor,
+                course.comment,
+                course.subject_code,
+                course.course_code
+            ))
+            conn.commit()
+            print("Course updated successfully.\n")
+        except sqlite3.Error as e:
+            print(f"Error updating course: {e}\n")
+    return
